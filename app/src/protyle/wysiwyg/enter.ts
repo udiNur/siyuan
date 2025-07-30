@@ -176,7 +176,7 @@ export const enter = (blockElement: HTMLElement, range: Range, protyle: IProtyle
 
     // 段首换行
     if (editableElement.textContent !== "" && range.toString() === "" && position.start === 0) {
-        const newElement = genEmptyElement(false, true);
+        const newElement = genEmptyElement(false, true, undefined, blockElement);
         const newId = newElement.getAttribute("data-node-id");
         transaction(protyle, [{
             action: "insert",
@@ -216,7 +216,7 @@ export const enter = (blockElement: HTMLElement, range: Range, protyle: IProtyle
     }
     const id = blockElement.getAttribute("data-node-id");
     const newElement = document.createElement("div");
-    newElement.appendChild(genEmptyElement(false, false));
+    newElement.appendChild(genEmptyElement(false, false, undefined, blockElement));
     const newEditableElement = newElement.querySelector('[contenteditable="true"]');
     newEditableElement.appendChild(range.extractContents());
     const selectWbrElement = newEditableElement.querySelector("wbr");
