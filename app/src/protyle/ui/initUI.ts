@@ -146,7 +146,8 @@ export const initUI = (protyle: IProtyle) => {
                     (protyle.wysiwyg.element.lastElementChild.getAttribute("data-type") !== "NodeParagraph" && protyle.wysiwyg.element.getAttribute("data-doc-type") !== "NodeListItem") ||
                     (protyle.wysiwyg.element.lastElementChild.getAttribute("data-type") === "NodeParagraph" && getContenteditableElement(lastEditElement).innerHTML !== ""))
                 ) {
-                    const emptyElement = genEmptyElement(false, false);
+                    const previousElement = protyle.wysiwyg.element.lastElementChild;
+                    const emptyElement = genEmptyElement(false, false, undefined, previousElement);
                     protyle.wysiwyg.element.insertAdjacentElement("beforeend", emptyElement);
                     transaction(protyle, [{
                         action: "insert",

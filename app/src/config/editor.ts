@@ -38,6 +38,14 @@ export const editor = {
 </label>
 <label class="fn__flex b3-label">
     <div class="fn__flex-1">
+        ${window.siyuan.languages.inheritTextDirection || "Inherit text direction from previous block"}
+        <div class="b3-label__text">${window.siyuan.languages.inheritTextDirectionTip || "When creating a new block, inherit the text direction from the previous block"}</div>
+    </div>
+    <span class="fn__space"></span>
+    <input class="b3-switch fn__flex-center" id="inheritTextDirection" type="checkbox"${(window.siyuan.config.editor.inheritTextDirection ?? true) ? " checked" : ""}/>
+</label>
+<label class="fn__flex b3-label">
+    <div class="fn__flex-1">
         ${window.siyuan.languages.editReadonly} 
         <code class="fn__code${window.siyuan.config.keymap.general.editReadonly.custom ? "" : " fn__none"}">${updateHotkeyTip(window.siyuan.config.keymap.general.editReadonly.custom)}</code>
         <div class="b3-label__text">${window.siyuan.languages.editReadonlyTip}</div>
@@ -423,6 +431,7 @@ export const editor = {
                 allowHTMLBLockScript: (editor.element.querySelector("#allowHTMLBLockScript") as HTMLInputElement).checked,
                 justify: (editor.element.querySelector("#justify") as HTMLInputElement).checked,
                 rtl: (editor.element.querySelector("#rtl") as HTMLInputElement).checked,
+                inheritTextDirection: (editor.element.querySelector("#inheritTextDirection") as HTMLInputElement).checked,
                 readOnly: (editor.element.querySelector("#readOnly") as HTMLInputElement).checked,
                 displayBookmarkIcon: (editor.element.querySelector("#displayBookmarkIcon") as HTMLInputElement).checked,
                 displayNetImgMark: (editor.element.querySelector("#displayNetImgMark") as HTMLInputElement).checked,

@@ -146,7 +146,8 @@ export class Title {
                     focusBlock(protyle.wysiwyg.element.firstElementChild, protyle.wysiwyg.element);
                 } else {
                     const newId = Lute.NewNodeID();
-                    const newElement = genEmptyElement(false, true, newId);
+                    const previousElement = protyle.wysiwyg.element.firstElementChild;
+                    const newElement = genEmptyElement(false, true, newId, previousElement);
                     protyle.wysiwyg.element.insertAdjacentElement("afterbegin", newElement);
                     focusByWbr(newElement, protyle.toolbar.range || getEditorRange(newElement));
                     transaction(protyle, [{

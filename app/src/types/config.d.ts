@@ -468,6 +468,10 @@ declare namespace Config {
          */
         rtl: boolean;
         /**
+         * Whether to inherit text direction from previous block when creating new blocks
+         */
+        inheritTextDirection: boolean;
+        /**
          * Whether to enable spell checking
          */
         spellcheck: boolean;

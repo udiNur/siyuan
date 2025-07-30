@@ -143,7 +143,7 @@ export const insertEmptyBlock = (protyle: IProtyle, position: InsertPosition, id
         return;
     }
     protyle.observerLoad?.disconnect();
-    let newElement = genEmptyElement(false, true);
+    let newElement = genEmptyElement(false, true, undefined, blockElement);
     let orderIndex = 1;
     if (blockElement.getAttribute("data-type") === "NodeListItem") {
         newElement = genListItemElement(blockElement, 0, true) as HTMLDivElement;
@@ -205,12 +205,21 @@ export const genEmptyBlock = (zwsp = true, wbr = true, string?: string) => {
     return `<div data-node-id="${Lute.NewNodeID()}" data-type="NodeParagraph" class="p"><div contenteditable="true" spellcheck="${window.siyuan.config.editor.spellcheck}">${html}</div><div contenteditable="false" class="protyle-attr">${Constants.ZWSP}</div></div>`;
 };
 
-export const genEmptyElement = (zwsp = true, wbr = true, id?: string) => {
+export const genEmptyElement = (zwsp = true, wbr = true, id?: string, previousElement?: Element) => {
     const element = document.createElement("div");
     element.setAttribute("data-node-id", id || Lute.NewNodeID());
     element.setAttribute("data-type", "NodeParagraph");
     element.classList.add("p");
     element.innerHTML = `<div contenteditable="true" spellcheck="${window.siyuan.config.editor.spellcheck}">${zwsp ? Constants.ZWSP : ""}${wbr ? "<wbr>" : ""}</div><div class="protyle-attr" contenteditable="false">${Constants.ZWSP}</div>`;
+    
+    // Inherit text direction from previous element if configuration is enabled (default: true)
+    if ((window.siyuan.config.editor.inheritTextDirection ?? true) && previousElement) {
+        const direction = getComputedStyle(previousElement).direction;
+        if (direction === "rtl") {
+            element.style.direction = "rtl";
+        }
+    }
+    
     return element;
 };
 
