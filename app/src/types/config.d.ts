@@ -1576,6 +1576,10 @@ declare namespace Config {
          * Disabled features.
          */
         disabledFeatures: string[];
+        /**
+         * Whether to hide cloud/account UI elements (for development builds)
+         */
+        hideCloudUI: boolean;
     }
 
     /**

@@ -477,7 +477,7 @@ ${renewHTML}<div class="fn__hr--b"></div>`;
         if (repos.element) {
             repos.element.innerHTML = "";
         }
-        if (window.siyuan.config.system.container === "ios") {
+        if (window.siyuan.config.system.container === "ios" || window.siyuan.config.system.hideCloudUI) {
             return;
         }
         let html = "";

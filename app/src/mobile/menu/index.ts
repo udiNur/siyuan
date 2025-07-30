@@ -39,15 +39,17 @@ export const popMenu = () => {
 export const initRightMenu = (app: App) => {
     const menuElement = document.getElementById("menu");
     let accountHTML = "";
-    if (window.siyuan.user && !window.siyuan.config.readonly) {
-        accountHTML = `<div class="b3-menu__item" id="menuAccount">
-    <img class="b3-menu__icon" src="${window.siyuan.user.userAvatarURL}"/>
-    <span class="b3-menu__label">${window.siyuan.user.userName}</span>
-</div>`;
-    } else if (!window.siyuan.config.readonly) {
-        accountHTML = `<div class="b3-menu__item" id="menuAccount">
-    <svg class="b3-menu__icon"><use xlink:href="#iconAccount"></use></svg><span class="b3-menu__label">${window.siyuan.languages.login}</span>
-</div>`;
+    if (!window.siyuan.config.system.hideCloudUI) {
+        if (window.siyuan.user && !window.siyuan.config.readonly) {
+            accountHTML = `<div class="b3-menu__item" id="menuAccount">
+        <img class="b3-menu__icon" src="${window.siyuan.user.userAvatarURL}"/>
+        <span class="b3-menu__label">${window.siyuan.user.userName}</span>
+    </div>`;
+        } else if (!window.siyuan.config.readonly) {
+            accountHTML = `<div class="b3-menu__item" id="menuAccount">
+        <svg class="b3-menu__icon"><use xlink:href="#iconAccount"></use></svg><span class="b3-menu__label">${window.siyuan.languages.login}</span>
+    </div>`;
+        }
     }
 
     let aiHTML = `<div class="b3-menu__item${window.siyuan.config.readonly ? " fn__none" : ""}" id="menuAI">
@@ -74,7 +76,7 @@ export const initRightMenu = (app: App) => {
     <div id="menuCommand" class="b3-menu__item">
         <svg class="b3-menu__icon"><use xlink:href="#iconTerminal"></use></svg><span class="b3-menu__label">${window.siyuan.languages.commandPanel}</span>
     </div>
-    <div class="b3-menu__item${window.siyuan.config.readonly ? " fn__none" : ""}" id="menuSyncNow">
+    <div class="b3-menu__item${window.siyuan.config.readonly || window.siyuan.config.system.hideCloudUI ? " fn__none" : ""}" id="menuSyncNow">
         <svg class="b3-menu__icon"><use xlink:href="#iconCloudSucc"></use></svg><span class="b3-menu__label">${window.siyuan.languages.syncNow}</span>
     </div>
     <div class="b3-menu__item${window.siyuan.config.readonly ? " fn__none" : ""}" id="menuNewDoc">
@@ -117,7 +119,7 @@ export const initRightMenu = (app: App) => {
     <div class="b3-menu__item${window.siyuan.config.readonly ? " fn__none" : ""}" id="menuAppearance">
         <svg class="b3-menu__icon"><use xlink:href="#iconTheme"></use></svg><span class="b3-menu__label">${window.siyuan.languages.appearance}</span>
     </div>
-    <div id="menuSync" class="b3-menu__item${window.siyuan.config.readonly ? " fn__none" : ""}">
+    <div id="menuSync" class="b3-menu__item${window.siyuan.config.readonly || window.siyuan.config.system.hideCloudUI ? " fn__none" : ""}">
         <svg class="b3-menu__icon"><use xlink:href="#iconCloud"></use></svg><span class="b3-menu__label">${window.siyuan.languages.cloud}</span>
     </div>
     <div class="b3-menu__item" id="menuAbout">
@@ -269,7 +271,7 @@ export const initRightMenu = (app: App) => {
                 event.preventDefault();
                 event.stopPropagation();
                 break;
-            } else if (target.id === "menuAccount") {
+            } else if (target.id === "menuAccount" && !window.siyuan.config.system.hideCloudUI) {
                 event.preventDefault();
                 event.stopPropagation();
                 if (document.querySelector("#menuAccount img")) {

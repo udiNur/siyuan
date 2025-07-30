@@ -28,7 +28,7 @@ export const initBar = (app: App) => {
     <span class="toolbar__text">${getWorkspaceName()}</span>
     <svg class="toolbar__svg"><use xlink:href="#iconDown"></use></svg>
 </div>
-<div id="barSync" class="ariaLabel toolbar__item${window.siyuan.config.readonly ? " fn__none" : ""}">
+<div id="barSync" class="ariaLabel toolbar__item${window.siyuan.config.readonly || window.siyuan.config.system.hideCloudUI ? " fn__none" : ""}">
     <svg><use xlink:href="#iconCloudSucc"></use></svg>
 </div>
 <button id="barBack" class="ariaLabel toolbar__item toolbar__item--disabled" aria-label="${window.siyuan.languages.goBack} ${updateHotkeyTip(window.siyuan.config.keymap.general.goBack.custom)}">
@@ -38,7 +38,7 @@ export const initBar = (app: App) => {
     <svg><use xlink:href="#iconForward"></use></svg>
 </button>
 <div class="fn__flex-1 fn__ellipsis" id="drag"><span class="fn__none">开发版，使用前请进行备份 Development version, please backup before use</span></div>
-<div id="toolbarVIP" class="fn__flex${window.siyuan.config.readonly ? " fn__none" : ""}"></div>
+<div id="toolbarVIP" class="fn__flex${window.siyuan.config.readonly || window.siyuan.config.system.hideCloudUI ? " fn__none" : ""}"></div>
 <div id="barPlugins" class="toolbar__item ariaLabel" aria-label="${window.siyuan.languages.plugin}">
     <svg><use xlink:href="#iconPlugin"></use></svg>
 </div>
@@ -165,7 +165,7 @@ export const initBar = (app: App) => {
                 event.stopPropagation();
                 break;
             } else if (targetId === "toolbarVIP") {
-                if (!window.siyuan.config.readonly) {
+                if (!window.siyuan.config.readonly && !window.siyuan.config.system.hideCloudUI) {
                     const dialogSetting = openSetting(app);
                     dialogSetting.element.querySelector('.b3-tab-bar [data-name="account"]').dispatchEvent(new CustomEvent("click"));
                 }
