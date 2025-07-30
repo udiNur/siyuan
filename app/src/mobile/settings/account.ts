@@ -145,7 +145,10 @@ ${renewHTML}<div class="fn__hr--b"></div>`;
                         fetchPost("/api/setting/logoutCloudUser", {}, () => {
                             window.siyuan.user = null;
                             closePanel();
-                            document.getElementById("menuAccount").innerHTML = `<svg class="b3-menu__icon"><use xlink:href="#iconAccount"></use></svg><span class="b3-menu__label">${window.siyuan.languages.login}</span>`;
+                            const menuAccountElement = document.getElementById("menuAccount");
+                            if (menuAccountElement) {
+                                menuAccountElement.innerHTML = `<svg class="b3-menu__icon"><use xlink:href="#iconAccount"></use></svg><span class="b3-menu__label">${window.siyuan.languages.login}</span>`;
+                            }
                             processSync();
                         });
                         event.preventDefault();
@@ -184,10 +187,12 @@ ${renewHTML}<div class="fn__hr--b"></div>`;
                             showMessage(window.siyuan.languages.refreshUser, 3000);
                             showAccountInfo();
                             const menuAccountElement = document.getElementById("menuAccount");
-                            if (window.siyuan.user) {
-                                menuAccountElement.innerHTML = `<img class="b3-menu__icon" src="${window.siyuan.user.userAvatarURL}"/><span class="b3-menu__label">${window.siyuan.user.userName}</span>`;
-                            } else {
-                                menuAccountElement.innerHTML = `<svg class="b3-menu__icon"><use xlink:href="#iconAccount"></use></svg><span class="b3-menu__label">${window.siyuan.languages.login}</span>`;
+                            if (menuAccountElement) {
+                                if (window.siyuan.user) {
+                                    menuAccountElement.innerHTML = `<img class="b3-menu__icon" src="${window.siyuan.user.userAvatarURL}"/><span class="b3-menu__label">${window.siyuan.user.userName}</span>`;
+                                } else {
+                                    menuAccountElement.innerHTML = `<svg class="b3-menu__icon"><use xlink:href="#iconAccount"></use></svg><span class="b3-menu__label">${window.siyuan.languages.login}</span>`;
+                                }
                             }
                             processSync();
                         });
@@ -268,12 +273,15 @@ const afterLogin = (response: IWebSocketData, deactive = false) => {
     if (deactive) {
         hideElements(["dialog"]);
         confirmDialog("⚠️ " + window.siyuan.languages.deactivateUser, window.siyuan.languages.deactivateUserTip, () => {
-            fetchPost("/api/account/deactivate", {}, () => {
-                window.siyuan.user = null;
-                closePanel();
-                document.getElementById("menuAccount").innerHTML = `<svg class="b3-menu__icon"><use xlink:href="#iconAccount"></use></svg><span class="b3-menu__label">${window.siyuan.languages.login}</span>`;
-                processSync();
-            });
+                                        fetchPost("/api/account/deactivate", {}, () => {
+                                window.siyuan.user = null;
+                                closePanel();
+                                const menuAccountElement = document.getElementById("menuAccount");
+                                if (menuAccountElement) {
+                                    menuAccountElement.innerHTML = `<svg class="b3-menu__icon"><use xlink:href="#iconAccount"></use></svg><span class="b3-menu__label">${window.siyuan.languages.login}</span>`;
+                                }
+                                processSync();
+                            });
         });
     } else {
         fetchPost("/api/setting/getCloudUser", {
@@ -281,8 +289,11 @@ const afterLogin = (response: IWebSocketData, deactive = false) => {
         }, response => {
             window.siyuan.user = response.data;
             closePanel();
-            document.getElementById("menuAccount").innerHTML = `<img class="b3-menu__icon" src="${window.siyuan.user.userAvatarURL}"/>
+            const menuAccountElement = document.getElementById("menuAccount");
+            if (menuAccountElement) {
+                menuAccountElement.innerHTML = `<img class="b3-menu__icon" src="${window.siyuan.user.userAvatarURL}"/>
 <span class="b3-menu__label">${window.siyuan.user.userName}</span>`;
+            }
             processSync();
         });
     }

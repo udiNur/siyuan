@@ -145,7 +145,7 @@ export const getSyncCloudList = (cloudPanelElement: Element, reload = false, cb?
 };
 
 export const syncGuide = (app?: App) => {
-    if (window.siyuan.config.readonly) {
+    if (window.siyuan.config.readonly || window.siyuan.config.system.hideCloudUI) {
         return;
     }
     /// #if MOBILE
